@@ -25,13 +25,28 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+
+			if ( (event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::W) ) {
+				ptm->increaseBrushSize();
+			}
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::S)) {
+				ptm->decreaseBrushSize();
+			}
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::D)) {
+				ptm->increaseBrushType();
+			}
+			if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::A)) {
+				ptm->decreaseBrushType();
+			}
 		}
+
 
 
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			ptm->OpenColorDialog(&window, &currentPenColor);
 		}
+
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 			ptm->brushDraw(currentMousePos, &currentPenColor);
 

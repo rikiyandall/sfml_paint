@@ -7,7 +7,7 @@ class ColorChooserDialog
 public:
 	ColorChooserDialog();
 	~ColorChooserDialog();
-	void Open(sf::Window* _windowRef, sf::Color* _colorRef);
+	void Open(sf::Window*, sf::Color*);
 	bool isOpen();
 
 private:

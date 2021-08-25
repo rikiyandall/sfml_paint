@@ -33,3 +33,36 @@ void PaintToolManager::brushDraw(sf::Vector2i _mousePos, sf::Color* _currentColo
 	canvasTexture.loadFromImage(*canvas);
 }
 
+void PaintToolManager::changeBrushType(BrushType type) {
+	brush->changeBrushType(type);
+}
+
+void PaintToolManager::changeBrushSize(BrushSize size) {
+	brush->changeBrushSize(size);
+}
+
+void PaintToolManager::increaseBrushSize() {
+	brushSizeIndex++;
+	if (brushSizeIndex > 3) { brushSizeIndex = 0;  }
+	brush->changeBrushSize(sizes[brushSizeIndex]);
+
+}
+
+void PaintToolManager::decreaseBrushSize() {
+	brushSizeIndex--;
+	if (brushSizeIndex < 0) { brushSizeIndex = 3;  }
+	brush->changeBrushSize(sizes[brushSizeIndex]);
+}
+
+void PaintToolManager::increaseBrushType() {
+	brushTypeIndex++;
+	if (brushTypeIndex > 2) { brushTypeIndex = 0; }
+	brush->changeBrushType(types[brushTypeIndex]);
+}
+
+void PaintToolManager::decreaseBrushType() {
+	brushTypeIndex--;
+	if (brushTypeIndex < 0) { brushTypeIndex = 2; }
+	brush->changeBrushType(types[brushTypeIndex]);
+}
+

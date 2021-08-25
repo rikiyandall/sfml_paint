@@ -23,6 +23,11 @@ private:
 	BrushTool* brush;
 	ColorChooserDialog* colorDialog;
 
+	int brushTypeIndex = 0;
+	int brushSizeIndex = 0;
+	BrushSize sizes[4] = { BrushSize::SMALL, BrushSize::MEDIUM, BrushSize::LARGE, BrushSize::XLARGE };
+	BrushType types[3] = { BrushType::BRUSH, BrushType::SPRAYCAN, BrushType::ERASER };
+
 	static PaintToolManager* instance;
 	
 	
@@ -33,9 +38,16 @@ public:
 		return instance;
 	}
 
-	void drawAll(sf::RenderWindow* window);
-	void brushDraw(sf::Vector2i _mousePos, sf::Color* _currentColor);
-	void OpenColorDialog(sf::Window* _windowRef, sf::Color* _colorRef);
+	void drawAll(sf::RenderWindow*);
+	void brushDraw(sf::Vector2i, sf::Color*);
+	void changeBrushType(BrushType);
+	void changeBrushSize(BrushSize);
+	void increaseBrushSize();
+	void decreaseBrushSize();
+	void increaseBrushType();
+	void decreaseBrushType();
+
+	void OpenColorDialog(sf::Window*, sf::Color*);
 
 
 
