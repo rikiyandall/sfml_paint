@@ -21,11 +21,8 @@ void BrushTool::draw(sf::Image* canvas, sf::Vector2i mousePos, sf::Color* curren
 	int sizeY = canvas->getSize().y;
 
 	for (int i = (-intSize/2); i < intSize/2; i++) {
-
 		for (int j = (-intSize / 2); j < intSize /2; j++) {
-
 			if (( (mousePos.x +i) < 0 || (mousePos.x + i) > sizeX || (mousePos.y + j) < 0 || (mousePos.y + j) > sizeY) == false) {
-
 				if (brushImage.getPixel(i+ intSize /2, j+ intSize /2).r == 0) {
 					canvas->setPixel(mousePos.x+i, mousePos.y+j, drawColor);
 				}

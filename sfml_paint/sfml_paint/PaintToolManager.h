@@ -1,8 +1,9 @@
 //-- library includes --/
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <windows.h>
 #include <wingdi.h>
-#include <iostream>
+#include "resource.h"
 
 //-- class includes --//
 #include "ColorChooserDialog.h"
@@ -13,6 +14,8 @@ class PaintToolManager
 
 private:
 	PaintToolManager();
+	void createPointerTextures();
+	void updatePointerSprite(BrushType);
 
 	int windowSizeX = 1024;
 	int windowSizeY = 720;
@@ -22,6 +25,11 @@ private:
 	sf::RenderWindow window;
 	BrushTool* brush;
 	ColorChooserDialog* colorDialog;
+
+	sf::Texture brushTexture;
+	sf::Texture spraycanTexture;
+	sf::Texture eraserTexture;
+	sf::Sprite currentPointerSprite;
 
 	int brushTypeIndex = 0;
 	int brushSizeIndex = 0;
@@ -39,6 +47,7 @@ public:
 	}
 
 	void drawAll(sf::RenderWindow*);
+	void moveMousePointer(sf::Vector2i);
 	void brushDraw(sf::Vector2i, sf::Color*);
 	void changeBrushType(BrushType);
 	void changeBrushSize(BrushSize);

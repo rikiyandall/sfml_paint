@@ -1,2 +1,12 @@
-﻿  BrushTool.cpp
+﻿  PaintToolManager.cpp
+C:\GitHubRepo\sfml_paint\sfml_paint\sfml_paint\PaintToolManager.cpp(40,55): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+C:\GitHubRepo\sfml_paint\sfml_paint\sfml_paint\PaintToolManager.cpp(40,43): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
   sfml_paint.vcxproj -> C:\GitHubRepo\sfml_paint\sfml_paint\Debug\sfml_paint.exe
