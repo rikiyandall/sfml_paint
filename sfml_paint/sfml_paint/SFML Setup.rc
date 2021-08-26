@@ -47,6 +47,20 @@ BEGIN
         MENUITEM "Large",                       ID_BRUSHSIZE_LARGE
         MENUITEM "Extra Large",                 ID_BRUSHSIZE_EXTRALARGE
     END
+    POPUP "Circle"
+    BEGIN
+        MENUITEM "Small",                       ID_CIRCLE_SMALL
+        MENUITEM "Medium",                      ID_CIRCLE_MEDIUM
+        MENUITEM "Large",                       ID_CIRCLE_LARGE
+        MENUITEM "Extra Large",                 ID_CIRCLE_EXTRALARGE
+    END
+    POPUP "Rectangle"
+    BEGIN
+        MENUITEM "Small",                       ID_RECTANGLE_SMALL
+        MENUITEM "Medium",                      ID_RECTANGLE_MEDIUM
+        MENUITEM "Large",                       ID_RECTANGLE_LARGE
+        MENUITEM "Extra Large",                 ID_RECTANGLE_EXTRALARGE
+    END
 END
 
 #endif    // English (United Kingdom) resources

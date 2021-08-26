@@ -12,6 +12,18 @@ HINSTANCE g_hInstance;
 
 sf::RenderWindow window;
 
+std::vector<sf::Shape*> shapes;
+
+int circRadius = 0;
+int rectWidth = 0;
+int rectHeight = 0;
+
+enum class PaintMode {BRUSH, CIRCLE, RECTANGLE};
+
+PaintMode mode = PaintMode::BRUSH;
+
+
+
 
 LRESULT CALLBACK OnEvent(HWND Handle, UINT Message, WPARAM WParam, LPARAM LParam)
 {
@@ -30,27 +42,81 @@ LRESULT CALLBACK OnEvent(HWND Handle, UINT Message, WPARAM WParam, LPARAM LParam
 			break;
 		case ID_EDIT_COLORCHOOSER:
 			ptm->OpenColorDialog(&window, &currentPenColor);
+		
 		case ID_BRUSHTYPES_STANDARDBRUSH:
 			ptm->changeBrushType(BrushType::BRUSH);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHTYPES_SPRAYCAN:
 			ptm->changeBrushType(BrushType::SPRAYCAN);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHTYPES_ERASER:
 			ptm->changeBrushType(BrushType::ERASER);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHSIZE_SMALL:
 			ptm->changeBrushSize(BrushSize::SMALL);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHSIZE_MEDIUM:
 			ptm->changeBrushSize(BrushSize::MEDIUM);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHSIZE_LARGE:
 			ptm->changeBrushSize(BrushSize::LARGE);
+			mode = PaintMode::BRUSH;
 			break;
 		case ID_BRUSHSIZE_EXTRALARGE:
 			ptm->changeBrushSize(BrushSize::XLARGE);
+			mode = PaintMode::BRUSH;
 			break;
+
+		case ID_CIRCLE_SMALL:
+			ptm->changeBrushType(BrushType::POLYGON);
+			circRadius = 10;
+			mode = PaintMode::CIRCLE;
+			break;
+		case ID_CIRCLE_MEDIUM:
+			ptm->changeBrushType(BrushType::POLYGON);
+			circRadius = 20;
+			mode = PaintMode::CIRCLE;
+			break;
+		case ID_CIRCLE_LARGE:
+			ptm->changeBrushType(BrushType::POLYGON);
+			circRadius = 40;
+			mode = PaintMode::CIRCLE;
+			break;
+		case ID_CIRCLE_EXTRALARGE:
+			ptm->changeBrushType(BrushType::POLYGON);
+			circRadius = 65;
+			mode = PaintMode::CIRCLE;
+			break;
+		case ID_RECTANGLE_SMALL:
+			ptm->changeBrushType(BrushType::POLYGON);
+			rectWidth = 20;
+			rectHeight = 10;
+			mode = PaintMode::RECTANGLE;
+			break;
+		case ID_RECTANGLE_MEDIUM:
+			ptm->changeBrushType(BrushType::POLYGON);
+			rectWidth = 30;
+			rectHeight = 10;
+			mode = PaintMode::RECTANGLE;
+			break;
+		case ID_RECTANGLE_LARGE:
+			ptm->changeBrushType(BrushType::POLYGON);
+			rectWidth = 40;
+			rectHeight = 20;
+			mode = PaintMode::RECTANGLE;
+			break;
+		case ID_RECTANGLE_EXTRALARGE:
+			ptm->changeBrushType(BrushType::POLYGON);
+			rectWidth = 60;
+			rectHeight = 30;
+			mode = PaintMode::RECTANGLE;
+			break;
+
 
 		default: // need the default here otherwise it breaks. 
 			return DefWindowProc(Handle, Message, WParam, LParam); // default: do nothing basically 
@@ -68,6 +134,11 @@ LRESULT CALLBACK OnEvent(HWND Handle, UINT Message, WPARAM WParam, LPARAM LParam
 
 	return DefWindowProc(Handle, Message, WParam, LParam); // always do default behaviour. 
 }
+
+
+
+
+
 
 int main() {
 	WNDCLASS WindowClass; // creating the windowclass variable - 
@@ -100,7 +171,7 @@ int main() {
 	RegisterClass(&WindowClass);
 
 	/* the 0,0 is the origin (top left), and the 800,600 is the max width / height of the window. */
-	HWND Window = CreateWindow(WindowClass.lpszClassName, L"SFML with Toolbars", WS_SYSMENU | WS_VISIBLE | WS_THICKFRAME, 0, 0, windowXSize, windowYSize, NULL, NULL, g_hInstance, NULL);
+	HWND Window = CreateWindow(WindowClass.lpszClassName, L"SFML with Toolbars", WS_OVERLAPPEDWINDOW  | WS_VISIBLE | WS_THICKFRAME, 0, 0, windowXSize, windowYSize, NULL, NULL, g_hInstance, NULL);
 	// a way to improve the above and below code for createwindow is to replace the 800 and 600 values with g_WindowWidth and g_WindowHeight. 
 	// If you then change the window height and width, you should be good to go. 
 
@@ -124,7 +195,6 @@ int main() {
 	//sf::RenderWindow window(sf::VideoMode(windowXSize, windowYSize), "SFML works!");
 
 
-
 	sf::Vector2i currentMousePos;
 	sf::Event event;
 
@@ -143,11 +213,46 @@ int main() {
 				window.close();
 			}
 
-			//mouse pointer paint
-			if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-				ptm->brushDraw(currentMousePos, &currentPenColor);
-
+			if (event.type == sf::Event::Resized)
+			{
+				// update the view to the new size of the window
+				sf::FloatRect visibleArea(0, 0, event.size.width, event.size.height);
+				window.setView(sf::View(visibleArea));
+				ptm->updateCanvasSize(event.size.width, event.size.height);
 			}
+
+			if (mode == PaintMode::BRUSH) {
+				//mouse pointer paint
+				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+					ptm->brushDraw(currentMousePos, &currentPenColor);
+				}
+			}
+			else if (mode == PaintMode::CIRCLE) {
+				if ((event.type == sf::Event::MouseButtonPressed) && (event.key.code == sf::Mouse::Button::Left)) {
+					
+						sf::CircleShape* circ = new sf::CircleShape();
+						circ->setRadius(circRadius);
+						circ->setOrigin(circ->getLocalBounds().width / 2, circ->getLocalBounds().height / 2);
+						circ->setPosition(currentMousePos.x, currentMousePos.y);
+						circ->setFillColor(currentPenColor);
+
+						shapes.push_back(circ);
+					
+				}
+			}
+			else if (mode == PaintMode::RECTANGLE) {
+				if ((event.type == sf::Event::MouseButtonPressed) && (event.key.code == sf::Mouse::Button::Left)) {
+					sf::RectangleShape* rect = new sf::RectangleShape();
+					rect->setSize(sf::Vector2f(rectWidth, rectHeight));
+					rect->setOrigin(rect->getLocalBounds().width / 2, rect->getLocalBounds().height / 2);
+					rect->setPosition(currentMousePos.x, currentMousePos.y);
+					rect->setFillColor(currentPenColor);
+
+					shapes.push_back(rect);
+
+				}
+			}
+			
 
 		}
 
@@ -162,6 +267,9 @@ int main() {
 
 			window.clear();
 			ptm->drawAll(&window);
+			for (int i = 0; i < shapes.size(); i++) {
+				window.draw(*shapes[i]);
+			};
 			window.display();
 
 

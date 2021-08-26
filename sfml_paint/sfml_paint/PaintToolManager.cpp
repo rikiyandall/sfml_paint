@@ -50,31 +50,6 @@ void PaintToolManager::changeBrushSize(BrushSize size) {
 	brush->changeBrushSize(size);
 }
 
-void PaintToolManager::increaseBrushSize() {
-	brushSizeIndex++;
-	if (brushSizeIndex > 3) { brushSizeIndex = 0;  }
-	brush->changeBrushSize(sizes[brushSizeIndex]);
-
-}
-
-void PaintToolManager::decreaseBrushSize() {
-	brushSizeIndex--;
-	if (brushSizeIndex < 0) { brushSizeIndex = 3;  }
-	brush->changeBrushSize(sizes[brushSizeIndex]);
-}
-
-void PaintToolManager::increaseBrushType() {
-	brushTypeIndex++;
-	if (brushTypeIndex > 2) { brushTypeIndex = 0; }
-	brush->changeBrushType(types[brushTypeIndex]);
-}
-
-void PaintToolManager::decreaseBrushType() {
-	brushTypeIndex--;
-	if (brushTypeIndex < 0) { brushTypeIndex = 2; }
-	brush->changeBrushType(types[brushTypeIndex]);
-}
-
 
 void PaintToolManager::createPointerTextures() {
 
@@ -113,5 +88,25 @@ void PaintToolManager::updatePointerSprite(BrushType type) {
 	case BrushType::SPRAYCAN :
 		currentPointerSprite.setTexture(spraycanTexture);
 		break;
+	case BrushType::POLYGON:
+		sf::Texture texture;
+		currentPointerSprite.setTexture(texture);
+		break;
 	}
+}
+
+void PaintToolManager::updateCanvasSize(int width, int height) {
+	windowSizeX = width;
+	windowSizeY = height;
+
+	sf::Image temp;
+
+	temp = *canvas;
+
+	canvas = new sf::Image();
+	canvas->create(windowSizeX, windowSizeY, sf::Color::White);
+	canvas->copy(temp, 0, 0);
+
+	canvasTexture.loadFromImage(*canvas);
+	canvasSprite.setTexture(canvasTexture);
 }

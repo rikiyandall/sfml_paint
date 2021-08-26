@@ -1,9 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include <windows.h>
-#include <wingdi.h>
 #include <iostream>
 
-enum class BrushType { BRUSH = 0, SPRAYCAN, ERASER};
+enum class BrushType { BRUSH = 0, SPRAYCAN, ERASER, POLYGON};
 enum class BrushSize { SMALL = 0, MEDIUM, LARGE, XLARGE};
 
 

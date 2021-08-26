@@ -22,6 +22,7 @@ private:
 	sf::Image* canvas;
 	sf::Texture canvasTexture;
 	sf::Sprite canvasSprite;
+
 	sf::RenderWindow window;
 	BrushTool* brush;
 	ColorChooserDialog* colorDialog;
@@ -31,10 +32,6 @@ private:
 	sf::Texture eraserTexture;
 	sf::Sprite currentPointerSprite;
 
-	int brushTypeIndex = 0;
-	int brushSizeIndex = 0;
-	BrushSize sizes[4] = { BrushSize::SMALL, BrushSize::MEDIUM, BrushSize::LARGE, BrushSize::XLARGE };
-	BrushType types[3] = { BrushType::BRUSH, BrushType::SPRAYCAN, BrushType::ERASER };
 
 	static PaintToolManager* instance;
 	
@@ -51,11 +48,8 @@ public:
 	void brushDraw(sf::Vector2i, sf::Color*);
 	void changeBrushType(BrushType);
 	void changeBrushSize(BrushSize);
-	void increaseBrushSize();
-	void decreaseBrushSize();
-	void increaseBrushType();
-	void decreaseBrushType();
 
+	void updateCanvasSize(int,int);
 	void OpenColorDialog(sf::Window*, sf::Color*);
 
 

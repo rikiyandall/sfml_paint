@@ -12,6 +12,14 @@
 #define ID_BRUSHSIZE_MEDIUM             40007
 #define ID_BRUSHSIZE_LARGE              40008
 #define ID_BRUSHSIZE_EXTRALARGE         40009
+#define ID_CIRCLE_SMALL					40010
+#define ID_CIRCLE_MEDIUM				40011
+#define ID_CIRCLE_LARGE					40012
+#define ID_CIRCLE_EXTRALARGE			40013
+#define ID_RECTANGLE_SMALL				40014
+#define ID_RECTANGLE_MEDIUM				40015
+#define ID_RECTANGLE_LARGE				40016
+#define ID_RECTANGLE_EXTRALARGE			40017
 
 // Next default values for new objects
 // 
